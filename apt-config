@@ -1,0 +1,3 @@
+DPkg {
+    Post-Invoke{"/usr/bin/zabbix_check_updates";};
+};

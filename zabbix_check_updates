@@ -1,0 +1,19 @@
+#! /bin/sh
+
+/usr/bin/apt-get -qq update 2> /dev/null
+
+security_update_count=`/usr/bin/aptitude \
+    -o Dir::Etc::sourcelist="/etc/apt/sources.list.d/security.sources.list" \
+    -o "Dir::Etc::sourceparts=/etc/apt/sources.list.d/security.sources.list" \
+    search '~U' \
+    | wc -l`
+update_count=`/usr/bin/aptitude search '~U' | wc -l`
+
+/usr/bin/zabbix_sender -c /etc/zabbix/zabbix_agentd.conf \
+                       -k 'linupdates[total]' \
+                       -o "$update_count"
+/usr/bin/zabbix_sender -c /etc/zabbix/zabbix_agentd.conf \
+                       -k 'linupdates[security]' \
+                       -o "$security_update_count"
+
+exit 0

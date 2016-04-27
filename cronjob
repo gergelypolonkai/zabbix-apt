@@ -1,0 +1,1 @@
+30 16 * * * root /usr/bin/zabbix_check_updates &> /dev/null
